@@ -1,6 +1,7 @@
 package cn.mdzza.controller;
 
 import cn.mdzza.dto.Result;
+import cn.mdzza.entity.User;
 import cn.mdzza.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,7 +28,7 @@ public class UserController {
 	 */
 	@RequestMapping("register")
 	public Result<Object> register(String mobile, String email, String password) {
-
+		User user = userService.get(mobile, email);
 		return null;
 	}
 

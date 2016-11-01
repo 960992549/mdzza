@@ -7,7 +7,7 @@ create table if not exists user(
 	sale varchar(20) default null comment '性别',
 	date_of_birth date default null comment '出生日期',
 	mobile varchar(20) default null comment '手机号',
-	enail varchar(100) default null comment '邮箱',
+	email varchar(100) default null comment '邮箱',
 	nickname varchar(50) default null comment '昵称',
 	level int(11) default null comment '等级',
 	experience int(11) default null comment '经验值',
