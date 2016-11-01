@@ -7,5 +7,7 @@ import org.apache.ibatis.annotations.Param;
  * Created by ydt on 2016/11/1.
  */
 public interface UserDao {
-	User get(@Param("mobile") String mobile, @Param("email") String email);
+	User get(@Param("type") String type, @Param("sign") String sign);
+
+	void register(@Param("type") String type, @Param("sign") String sign, @Param("password") String password);
 }

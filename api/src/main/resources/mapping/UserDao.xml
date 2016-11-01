@@ -3,6 +3,19 @@
 <mapper namespace="cn.mdzza.dao.UserDao">
 
 	<select id="get" resultType="cn.mdzza.entity.User">
-		select * from user where mobile = #{mobile} or email = #{email}
+		select *
+		from user
+		where ${type} = #{sign} limit 1
 	</select>
+
+	<insert id="register">
+		insert into user
+		(
+			${type},
+			password
+		) values (
+			#{sign},
+			#{password}
+		)
+	</insert>
 </mapper>
