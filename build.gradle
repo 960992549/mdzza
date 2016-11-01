@@ -115,6 +115,11 @@ subprojects {
                 'org.springframework.boot:spring-boot-starter-web',
                 //------------tomcat
                 'org.springframework.boot:spring-boot-starter-tomcat',
+                //------------jdbc
+                'org.springframework.boot:spring-boot-starter-jdbc:1.2.2.RELEASE',
+                //------------mybatis
+                'org.mybatis:mybatis-spring:1.2.2',
+                'org.mybatis:mybatis:3.3.0',
         )
         //运行级别的依赖包
         providedRuntime()
