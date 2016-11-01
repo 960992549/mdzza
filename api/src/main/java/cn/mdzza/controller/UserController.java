@@ -1,6 +1,8 @@
 package cn.mdzza.controller;
 
 import cn.mdzza.dto.Result;
+import cn.mdzza.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping(value = "user", method = RequestMethod.POST)
 public class UserController {
 
+	@Autowired
+	private UserService userService;
+
 	/**
 	 * 用户注册
 	 * @param mobile
@@ -22,6 +27,7 @@ public class UserController {
 	 */
 	@RequestMapping("register")
 	public Result<Object> register(String mobile, String email, String password) {
+
 		return null;
 	}
 
