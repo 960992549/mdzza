@@ -1,7 +1,6 @@
 package cn.mdzza.controller;
 
 import cn.mdzza.dto.Result;
-import cn.mdzza.entity.User;
 import cn.mdzza.enums.RegisterTypeEnum;
 import cn.mdzza.enums.ResultEnum;
 import cn.mdzza.service.UserService;
@@ -13,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Map;
 
@@ -35,6 +35,7 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping("register")
+	@ResponseBody
 	public Result<Object> register(String mobile, String email, String password) {
 		RegisterTypeEnum registerType;
 		if(StringUtils.isNotEmpty(mobile) && StringUtils.isEmpty(email) && MobileUtil.isMobile(mobile)) {
@@ -59,6 +60,7 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping("login")
+	@ResponseBody
 	public Result<Object> login(String username, String password) {
 		return null;
 	}

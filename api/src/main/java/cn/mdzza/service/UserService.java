@@ -53,6 +53,5 @@ public class UserService {
 			result.put("isSuccess", true);
 			return result;
 		}
-
 	}
 }
