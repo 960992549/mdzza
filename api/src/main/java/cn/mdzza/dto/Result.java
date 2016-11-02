@@ -7,13 +7,11 @@ import cn.mdzza.enums.ResultEnum;
  * Created by ydt on 2016/11/1.
  */
 public class Result<T> {
-	private int code;
-	private String text;
+	private int code = ResultEnum.SUCCESS.getCode();
+	private String text = ResultEnum.SUCCESS.getText();
 	private T data;
 
 	public Result() {
-		code = ResultEnum.SUCCESS.getCode();
-		text = ResultEnum.SUCCESS.getText();
 	}
 
 	public Result(ResultEnum resultEnum) {
@@ -22,8 +20,6 @@ public class Result<T> {
 	}
 
 	public Result(T data) {
-		code = ResultEnum.SUCCESS.getCode();
-		text = ResultEnum.SUCCESS.getText();
 		this.data = data;
 	}
 

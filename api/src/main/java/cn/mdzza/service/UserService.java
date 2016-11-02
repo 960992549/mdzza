@@ -24,8 +24,8 @@ public class UserService {
 	@Autowired
 	private UserDao userDao;
 
-	public User get(String mobile, String email) {
-		return userDao.get(mobile, email);
+	public User getByLoginName(String loginName, String password) {
+		return userDao.getByLoginName(loginName, password);
 	}
 
 	/**
@@ -53,5 +53,9 @@ public class UserService {
 			result.put("isSuccess", true);
 			return result;
 		}
+	}
+
+	public User get(Long id) {
+		return userDao.get("id", id.toString());
 	}
 }

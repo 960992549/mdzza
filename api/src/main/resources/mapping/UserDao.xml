@@ -8,6 +8,13 @@
 		where ${type} = #{sign} limit 1
 	</select>
 
+	<select id="getByLoginName" resultType="cn.mdzza.entity.User">
+		select *
+		from user
+		where username=#{loginName} or mobile=#{loginName} or email=#{loginName}
+		limit 1
+	</select>
+
 	<insert id="register">
 		insert into user
 		(
