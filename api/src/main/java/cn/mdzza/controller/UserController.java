@@ -9,8 +9,6 @@ import cn.mdzza.service.UserService;
 import cn.mdzza.util.EmailUtil;
 import cn.mdzza.util.MobileUtil;
 import com.alibaba.fastjson.JSON;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.apache.commons.collections4.MapUtils;
