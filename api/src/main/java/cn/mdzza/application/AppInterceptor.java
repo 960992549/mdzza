@@ -4,10 +4,9 @@ import cn.mdzza.common.ServiceException;
 import cn.mdzza.constant.ProjectConstant;
 import cn.mdzza.dto.Token;
 import cn.mdzza.enums.ResultEnum;
-import com.alibaba.fastjson.JSON;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import org.apache.commons.lang3.StringUtils;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.method.HandlerMethod;
@@ -20,7 +19,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Parameter;
 import java.util.Date;
-import java.util.Map;
+import java.util.UUID;
 
 /**
  * 前端api拦截器，用来校验活动、校验client、token、异常情况
@@ -64,11 +63,11 @@ public class AppInterceptor implements HandlerInterceptor {
 						}
 						String newToken = oldToken;
 						if(now.getTime() > iat.getTime() + ProjectConstant.JWT_INTERVAL_SECOND * 1000) {
-							newToken = Jwts.builder().setClaims(claims.setIssuedAt(now)
-									.setExpiration(new Date(now.getTime() + ProjectConstant.JWT_EXPIRE_SECOND * 1000))).compact();
+							newToken = Jwts.builder().setClaims(claims.setExpiration(new Date(now.getTime() + ProjectConstant.JWT_EXPIRE_SECOND * 1000))
+									.setIssuedAt(now).setNotBefore(now).setId(UUID.randomUUID().toString()))
+									.signWith(SignatureAlgorithm.HS256, ProjectConstant.JWT_SIGN_KEY).compact();
 						}
-						request.setAttribute("newToken", newToken);
-						Token token = new Token(sub);
+						Token token = new Token(sub, newToken);
 						request.setAttribute("token", token);
 					} catch (Exception e) {
 						throw new ServiceException(ResultEnum.TOKEN_INVALID);
@@ -98,40 +97,26 @@ public class AppInterceptor implements HandlerInterceptor {
 	 */
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-		if(ex != null) {
-			handlerException(response, ex);
-			return;
-		}
-		try {
-			String newToken = (String) request.getAttribute("newToken");
-			if (StringUtils.isNotEmpty(newToken)) {
-				PrintWriter writer = response.getWriter();
-				Map<String, Object> result = JSON.parseObject(writer.toString(), Map.class);
-				result.put("token", newToken);
-				writer.print(JSON.toJSON(result));
-				writer.close();
-			}
-			return;
-		} catch (Exception e) {
-			handlerException(response, e);
-		}
+		handlerException(response, ex);
 	}
 
 	private void handlerException(HttpServletResponse response, Exception ex) throws IOException {
-		logger.error(ex.getMessage(), ex);
-		ResultEnum resultEnum;
-		if(ex instanceof ServiceException) {
-			resultEnum = ((ServiceException)ex).getResultEnum();
-			if(resultEnum == null) {
+		if(ex != null) {
+			logger.error(ex.getMessage(), ex);
+			ResultEnum resultEnum;
+			if (ex instanceof ServiceException) {
+				resultEnum = ((ServiceException) ex).getResultEnum();
+				if (resultEnum == null) {
+					resultEnum = ResultEnum.EXCEPTION;
+				}
+				logger.info("catch service exception, code : " + ((ServiceException) ex).getResultEnum().getCode());
+			} else {
 				resultEnum = ResultEnum.EXCEPTION;
+				logger.error("catch other exception, message: " + ex.getMessage());
 			}
-			logger.info("catch service exception, code : " + ((ServiceException)ex).getResultEnum().getCode());
-		} else {
-			resultEnum = ResultEnum.EXCEPTION;
-			logger.error("catch other exception, message: " + ex.getMessage());
+			PrintWriter writer = response.getWriter();
+			writer.print(resultEnum.toString());
+			writer.close();
 		}
-		PrintWriter writer = response.getWriter();
-		writer.print(resultEnum.toString());
-		writer.close();
 	}
 }

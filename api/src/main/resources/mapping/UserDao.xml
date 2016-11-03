@@ -11,7 +11,7 @@
 	<select id="getByLoginName" resultType="cn.mdzza.entity.User">
 		select *
 		from user
-		where username=#{loginName} or mobile=#{loginName} or email=#{loginName}
+		where (username=#{loginName} or mobile=#{loginName} or email=#{loginName}) and password = #{password}
 		limit 1
 	</select>
 

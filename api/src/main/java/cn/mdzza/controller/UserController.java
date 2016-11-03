@@ -87,17 +87,17 @@ public class UserController {
 		Date now = new Date();
 		String token = Jwts.builder().setIssuer(ProjectConstant.JWT_ISSUER)
 				.setSubject(user.getId().toString()).setAudience("user")
-				.setExpiration(new Date(now.getTime() + ProjectConstant.JWT_EXPIRE_SECOND * 1000)).setIssuedAt(now)
+				.setExpiration(new Date(now.getTime() + ProjectConstant.JWT_EXPIRE_SECOND * 1000))
+				.setIssuedAt(now).setNotBefore(now)
 				.setId(UUID.randomUUID().toString()).signWith(SignatureAlgorithm.HS256, ProjectConstant.JWT_SIGN_KEY)
 				.compact();
-		request.setAttribute("newToken", token);
-		return new Result<>();
+		return new Result<>(token);
 	}
 
 	@RequestMapping("getInfo")
 	@ResponseBody
 	public Result<Object> getInfo(Token token) {
 		User user = userService.get(token.getId());
-		return new Result<>(JSON.toJSON(user));
+		return new Result<>(token.getTk(), JSON.toJSON(user));
 	}
 }

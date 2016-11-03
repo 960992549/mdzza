@@ -31,12 +31,12 @@
         <appender-ref ref="log_console" />
         <appender-ref ref="log_file" />
     </root>
-    <logger name="com.hsbank" additivity="false">
+    <logger name="cn.mdzza" additivity="false">
         <level value="debug" />
         <appender-ref ref="log_console" />
         <appender-ref ref="log_file" />
     </logger>
-    <logger name="com.mayland" additivity="false">
+    <logger name="cn.mdzza" additivity="false">
         <level value="debug" />
         <appender-ref ref="log_console" />
         <appender-ref ref="log_file" />

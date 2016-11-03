@@ -9,6 +9,7 @@ import cn.mdzza.enums.ResultEnum;
 public class Result<T> {
 	private int code = ResultEnum.SUCCESS.getCode();
 	private String text = ResultEnum.SUCCESS.getText();
+	private String token = "";
 	private T data;
 
 	public Result() {
@@ -19,7 +20,12 @@ public class Result<T> {
 		text = resultEnum.getText();
 	}
 
-	public Result(T data) {
+	public Result(String token) {
+		this.token = token;
+	}
+
+	public Result(String token, T data) {
+		this.token = token;
 		this.data = data;
 	}
 
@@ -54,6 +60,14 @@ public class Result<T> {
 
 	public void setText(String text) {
 		this.text = text;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 	public T getData() {
