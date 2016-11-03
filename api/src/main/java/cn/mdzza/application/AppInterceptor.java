@@ -1,6 +1,7 @@
 package cn.mdzza.application;
 
 import cn.mdzza.common.ServiceException;
+import cn.mdzza.constant.ProjectConstant;
 import cn.mdzza.dto.Token;
 import cn.mdzza.enums.ResultEnum;
 import com.alibaba.fastjson.JSON;
@@ -28,11 +29,6 @@ import java.util.Map;
 public class AppInterceptor implements HandlerInterceptor {
 	Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	private static String JWT_ISSUER = "mdzza";
-	private static long JWT_EXPIRE_SECOND = 3600;
-	private static String JWT_SIGN_KEY = "mdzza";
-	private static long JWT_INTERVAL_SECOND = 600;
-
 	/**
 	 * 校验活动、处理client、token
 	 * @param request
@@ -55,7 +51,7 @@ public class AppInterceptor implements HandlerInterceptor {
 				if(parameter.getType().equals(Token.class)) {
 					try {
 						String oldToken = request.getParameter("token");
-						Claims claims = Jwts.parser().setSigningKey(JWT_SIGN_KEY)
+						Claims claims = Jwts.parser().setSigningKey(ProjectConstant.JWT_SIGN_KEY)
 								.parseClaimsJws(oldToken).getBody();
 						Date iat = claims.getIssuedAt();
 						Date exp = claims.getExpiration();
@@ -67,9 +63,9 @@ public class AppInterceptor implements HandlerInterceptor {
 							throw new ServiceException(ResultEnum.TOKEN_INVALID);
 						}
 						String newToken = oldToken;
-						if(now.getTime() > iat.getTime() + JWT_INTERVAL_SECOND * 1000) {
+						if(now.getTime() > iat.getTime() + ProjectConstant.JWT_INTERVAL_SECOND * 1000) {
 							newToken = Jwts.builder().setClaims(claims.setIssuedAt(now)
-									.setExpiration(new Date(now.getTime() + JWT_EXPIRE_SECOND * 1000))).compact();
+									.setExpiration(new Date(now.getTime() + ProjectConstant.JWT_EXPIRE_SECOND * 1000))).compact();
 						}
 						request.setAttribute("newToken", newToken);
 						Token token = new Token(sub);

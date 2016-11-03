@@ -1,5 +1,6 @@
 package cn.mdzza.controller;
 
+import cn.mdzza.constant.ProjectConstant;
 import cn.mdzza.dto.Result;
 import cn.mdzza.dto.Token;
 import cn.mdzza.entity.User;
@@ -15,6 +16,8 @@ import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,12 +35,15 @@ import java.util.UUID;
 @RequestMapping(value = "user", method = RequestMethod.POST)
 public class UserController {
 
-	private static String JWT_ISSUER = "mdzza";
-	private static long JWT_EXPIRE_SECOND = 3600;
-	private static String JWT_SIGN_KEY = "mdzza";
-
 	@Autowired
 	private UserService userService;
+
+	@ModelAttribute
+	public void preHandler(HttpServletRequest request, Model model) {
+		if(request.getAttribute("token") != null) {
+			model.addAttribute("token", request.getAttribute("token"));
+		}
+	}
 
 	/**
 	 * 用户注册
@@ -79,10 +85,10 @@ public class UserController {
 			return new Result<>(ResultEnum.OTHER_ERROR.getCode(), "用户名或密码不正确");
 		}
 		Date now = new Date();
-		String token = Jwts.builder().setIssuer(JWT_ISSUER)
+		String token = Jwts.builder().setIssuer(ProjectConstant.JWT_ISSUER)
 				.setSubject(user.getId().toString()).setAudience("user")
-				.setExpiration(new Date(now.getTime() + JWT_EXPIRE_SECOND * 1000)).setIssuedAt(now)
-				.setId(UUID.randomUUID().toString()).signWith(SignatureAlgorithm.HS256, JWT_SIGN_KEY)
+				.setExpiration(new Date(now.getTime() + ProjectConstant.JWT_EXPIRE_SECOND * 1000)).setIssuedAt(now)
+				.setId(UUID.randomUUID().toString()).signWith(SignatureAlgorithm.HS256, ProjectConstant.JWT_SIGN_KEY)
 				.compact();
 		request.setAttribute("newToken", token);
 		return new Result<>();
