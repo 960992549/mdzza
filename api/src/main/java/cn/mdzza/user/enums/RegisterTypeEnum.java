@@ -1,4 +1,4 @@
-package cn.mdzza.enums;
+package cn.mdzza.user.enums;
 
 /**
  * Created by ydt on 2016/11/1.

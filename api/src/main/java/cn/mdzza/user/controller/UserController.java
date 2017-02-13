@@ -1,12 +1,12 @@
-package cn.mdzza.controller;
+package cn.mdzza.user.controller;
 
 import cn.mdzza.constant.ProjectConstant;
 import cn.mdzza.dto.Result;
 import cn.mdzza.dto.Token;
-import cn.mdzza.entity.User;
-import cn.mdzza.enums.RegisterTypeEnum;
+import cn.mdzza.user.enums.RegisterTypeEnum;
 import cn.mdzza.enums.ResultEnum;
-import cn.mdzza.service.UserService;
+import cn.mdzza.user.entity.User;
+import cn.mdzza.user.service.UserService;
 import cn.mdzza.util.EmailUtil;
 import cn.mdzza.util.MobileUtil;
 import com.alibaba.fastjson.JSON;

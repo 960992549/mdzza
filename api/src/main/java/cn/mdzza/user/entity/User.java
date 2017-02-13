@@ -1,4 +1,4 @@
-package cn.mdzza.entity;
+package cn.mdzza.user.entity;
 
 /**
  * Created by ydt on 2016/11/1.

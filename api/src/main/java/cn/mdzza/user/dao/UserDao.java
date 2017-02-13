@@ -1,6 +1,6 @@
-package cn.mdzza.dao;
+package cn.mdzza.user.dao;
 
-import cn.mdzza.entity.User;
+import cn.mdzza.user.entity.User;
 import org.apache.ibatis.annotations.Param;
 
 /**

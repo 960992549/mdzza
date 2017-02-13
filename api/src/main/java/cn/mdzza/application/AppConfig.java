@@ -31,7 +31,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 		dataSource.setUrl("jdbc:mysql://localhost:3306/mdzza");
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 		dataSource.setUsername("root");
-		dataSource.setPassword("");
+		dataSource.setPassword("123456");
 		return dataSource;
 	}
 

@@ -1,10 +1,10 @@
-package cn.mdzza.service;
+package cn.mdzza.user.service;
 
 import cn.mdzza.common.ServiceException;
-import cn.mdzza.dao.UserDao;
-import cn.mdzza.entity.User;
-import cn.mdzza.enums.RegisterTypeEnum;
+import cn.mdzza.user.enums.RegisterTypeEnum;
 import cn.mdzza.enums.ResultEnum;
+import cn.mdzza.user.dao.UserDao;
+import cn.mdzza.user.entity.User;
 import cn.mdzza.util.SyncUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
