@@ -97,25 +97,3 @@ create table if not exists concern_history(
 	primary key (id)
 );
 alter table concern_history comment '关注历史';
-
-drop table if exists manager;
-create table if not exists manager(
-	id bigint not null auto_increment comment '编号',
-	username varchar(30) not null comment '登录名',
-	password varchar(50) not null comment '登录密码',
-	status varchar(20) not null comment '状态',
-	role_id bigint not null comment '角色编号',
-	name varchar(20) comment '姓名',
-	mobile varchar(20) comment '手机号',
-	gender varchar(20) comment '性别',
-	primary key (id)
-);
-alter table manager comment '管理员';
-
-drop table if exists role;
-create table if not exists role(
-	id bigint not null auto_increment comment '编号',
-	name varchar(20) not null comment '名称',
-	primary key (id)
-);
-alter table role comment '角色';
