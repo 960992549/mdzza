@@ -12,17 +12,18 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import javax.sql.DataSource;
+import java.util.Properties;
 
 /**
  * Created by ydt on 2016/11/1.
  */
 @Configuration
-@MapperScan("cn.mdzza.dao")
+@MapperScan("cn.mdzza.*.dao")
 public class AppConfig extends WebMvcConfigurerAdapter {
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(new AppInterceptor()).addPathPatterns("/**");
+//		registry.addInterceptor(new AppInterceptor()).addPathPatterns("/**");
 	}
 
 	@Bean
@@ -43,6 +44,10 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 	@Bean
 	public SqlSessionFactory sqlSessionFactory() throws Exception {
 		SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
+		//开启驼峰命名转换
+		Properties properties = new Properties();
+		properties.setProperty("mapUnderscoreToCamelCase", "true");
+		sessionFactory.setConfigurationProperties(properties);
 		sessionFactory.setDataSource(getDataSource());
 		sessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:/mapping/**/*.xml"));
 		return sessionFactory.getObject();

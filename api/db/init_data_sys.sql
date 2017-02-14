@@ -5,7 +5,7 @@ delete from sys_user where username='superadmin';
 insert into sys_user (username,password,status,role_id) values ('superadmin','superadmin','normal',1);
 
 delete from sys_dict where type='data_type_java';
-insert into sys_dict (value,label,type,sort) values ('java.lang.int','整型','data_type_java',10);
+insert into sys_dict (value,label,type,sort) values ('java.lang.Integer','整型','data_type_java',10);
 insert into sys_dict (value,label,type,sort) values ('java.lang.Long','长整型','data_type_java',20);
 insert into sys_dict (value,label,type,sort) values ('java.lang.String','字符型','data_type_java',30);
 insert into sys_dict (value,label,type,sort) values ('java.lang.Date','日期','data_type_java',40);

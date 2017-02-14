@@ -18,6 +18,7 @@ create table if not exists api_input(
 	api_id bigint not null comment 'api编号',
 	name varchar(50) not null comment '参数名',
 	label varchar(50) not null comment '标签',
+	data_type varchar(50) not null comment '数据类型',
 	description varchar(255) comment '说明',
 	sort int comment '排序',
 	primary key (id)
@@ -29,7 +30,8 @@ create table if not exists api_input_validator(
 	id bigint not null auto_increment comment '编号',
 	input_id bigint not null comment '入参编号',
 	rule text comment '规则',
-	message varchar(50) comment '结果提示',
+	message varchar(50) comment '提示信息',
+	description varchar(255) comment '说明',
 	sort int comment '排序',
 	primary key (id)
 );
@@ -41,21 +43,23 @@ create table if not exists api_output(
 	api_id bigint not null comment 'api编号',
 	name varchar(50) not null comment '参数名',
 	label varchar(50) not null comment '标签',
+	data_type varchar(50) not null comment '数据类型',
 	description varchar(255) comment '说明',
 	sort int comment '排序',
 	primary key (id)
 );
 alter table api_output comment 'api出参';
 
-drop table if exists api_output_formater;
-create table if not exists api_output_formater(
+drop table if exists api_output_format;
+create table if not exists api_output_format(
 	id bigint not null auto_increment comment '编号',
-	input_id bigint not null comment '出参编号',
-	formater text comment '转换器',
+	output_id bigint not null comment '出参编号',
+	format text comment '转换器',
+	description varchar(255) comment '说明',
 	sort int comment '排序',
 	primary key (id)
 );
-alter table api_output_formater comment 'api出参转换器';
+alter table api_output_format comment 'api出参转换器';
 
 drop table if exists action_info;
 create table if not exists action_info(
