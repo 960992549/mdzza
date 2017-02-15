@@ -1,16 +1,13 @@
 package cn.mdzza.common.validator;
 
 import cn.mdzza.constant.ProjectConstant;
-import cn.mdzza.dto.Token;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * Created by ydt on 2017/2/15.
