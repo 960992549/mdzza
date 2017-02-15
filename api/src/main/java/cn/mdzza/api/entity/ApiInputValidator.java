@@ -1,5 +1,8 @@
 package cn.mdzza.api.entity;
 
+import cn.mdzza.common.validator.Validator;
+import cn.mdzza.util.SpringContextHolder;
+
 /**
  * Created by ydt on 2017/2/14.
  */
@@ -57,5 +60,12 @@ public class ApiInputValidator {
 
 	public void setSort(Integer sort) {
 		this.sort = sort;
+	}
+
+	public boolean validate(Object value) {
+		String rule = this.rule.replace(" ", "");
+		rule = rule.indexOf("=") != -1 ? rule.substring(0, rule.indexOf("=")) : rule;
+		Validator validator = SpringContextHolder.getBean(rule + "Validator");
+		return validator.validate(value, this.rule.replace(" ", ""));
 	}
 }

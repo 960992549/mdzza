@@ -3,8 +3,10 @@ package cn.mdzza.controller;
 import cn.mdzza.api.entity.ApiInfo;
 import cn.mdzza.api.entity.ApiInput;
 import cn.mdzza.api.entity.ApiInputValidator;
+import cn.mdzza.api.entity.ApiOutput;
 import cn.mdzza.api.service.*;
 import cn.mdzza.dto.Result;
+import cn.mdzza.enums.ResultEnum;
 import cn.mdzza.util.SpringContextHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by ydt on 2017/2/14.
@@ -54,15 +58,29 @@ public class ApiController {
 			argsClassName[i++] = input.getDataType();
 			List<ApiInputValidator> validators = apiInputValidatorService.get(input.getId());
 			for(ApiInputValidator validator : validators) {
-
+				//校验入参
+				boolean isValid = validator.validate(inputValue);
+				if(!isValid) {
+					return new Result(ResultEnum.PARAM_ERROR.getCode(), validator.getMessage());
+				}
 			}
 		}
 		//调用service
-		Object result = invokeMethod(SpringContextHolder.getBean(apiInfo.getInvokeMethod().split(".")[0]),
-				apiInfo.getInvokeMethod().split(".")[1], args, argsClassName);
+		Map<String, Object> result = (Map<String, Object>)invokeMethod(
+				SpringContextHolder.getBean(apiInfo.getInvokeMethod().split("\\.")[0]),
+				apiInfo.getInvokeMethod().split("\\.")[1], args, argsClassName);
 		//获取出参
+		List<ApiOutput> outputs = apiOutputService.get(apiInfo.getId());
 		//获取出参转换器
-		return null;
+		if((Boolean)result.get("isSuccess")) {	//service执行成功
+			Map<String, Object> data = new HashMap<String, Object>();
+			for(ApiOutput output : outputs) {
+				data.put(output.getName(), result.get(output.getName()));
+			}
+			return new Result(data);
+		} else {	//service执行失败
+			return new Result(ResultEnum.SERVICE_FAILED.getCode(), (String)result.get("message"));
+		}
 	}
 
 	private Object invokeMethod(Object owner, String methodName, Object[] args, String[] argsClassName) {

@@ -6,8 +6,25 @@
 		select *
 		from sys_user
 		where username=#{username}
-			and password=#{password}
+			<if test="password != null and password != ''">
+				and password=#{password}
+			</if>
 		limit 1
 	</select>
 
+	<insert id="add">
+		insert into sys_user (
+			username,
+			password,
+			name,
+			mobile,
+			status
+		) values (
+			#{username},
+			#{password},
+			#{name},
+			#{mobile},
+			'normal'
+		)
+	</insert>
 </mapper>

@@ -10,7 +10,9 @@ public enum ResultEnum {
 	SUCCESS(0, "OK"),
 	TOKEN_INVALID(1, "用户未登录"),
 	OTHER_ERROR(3, "其他错误"),
-	EXCEPTION(4, "系统异常");
+	EXCEPTION(4, "系统异常"),
+	SERVICE_FAILED(5, "操作失败"),
+	;
 
 	private int code;
 	private String text;

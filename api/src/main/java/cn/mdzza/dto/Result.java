@@ -24,6 +24,10 @@ public class Result<T> {
 		this.token = token;
 	}
 
+	public Result(T data) {
+		this.data = data;
+	}
+
 	public Result(String token, T data) {
 		this.token = token;
 		this.data = data;

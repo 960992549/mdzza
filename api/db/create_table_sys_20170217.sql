@@ -4,13 +4,13 @@ create table if not exists sys_user(
 	username varchar(30) not null comment '登录名',
 	password varchar(50) not null comment '登录密码',
 	status varchar(20) not null comment '状态',
-	role_id bigint not null comment '角色编号',
+	role_id bigint comment '角色编号',
 	name varchar(20) comment '姓名',
 	mobile varchar(20) comment '手机号',
 	gender varchar(20) comment '性别',
 	primary key (id)
 );
-alter table sys_user comment '管理员';
+alter table sys_user comment '用户';
 
 drop table if exists sys_role;
 create table if not exists sys_role(
