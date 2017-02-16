@@ -8,6 +8,8 @@ create table if not exists sys_user(
 	name varchar(20) comment '姓名',
 	mobile varchar(20) comment '手机号',
 	gender varchar(20) comment '性别',
+	create_user_id bigint comment '创建人',
+	create_datetime datetime comment '创建时间',
 	primary key (id)
 );
 alter table sys_user comment '用户';
@@ -44,6 +46,15 @@ create table if not exists sys_role_menu(
 	primary key (id)
 );
 alter table sys_role_menu comment '角色菜单';
+
+drop table if exists sys_role_api;
+create table if not exists sys_role_api(
+	id bigint not null auto_increment comment '编号',
+	role_id bigint not null comment '角色编号',
+	api_id bigint not null comment '接口编号',
+	primary key (id)
+);
+alter table sys_role_api comment '角色接口';
 
 drop table if exists sys_dict;
 create table if not exists sys_dict(

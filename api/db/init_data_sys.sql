@@ -4,6 +4,10 @@ insert into sys_role (id,name_en,name_cn) values (1,'superadmin','超级管理�
 delete from sys_user where username='superadmin';
 insert into sys_user (username,password,status,role_id) values ('superadmin','superadmin','normal',1);
 
+delete from sys_role_api where role_id=1;
+insert into sys_role_api (role_id,api_id) values (1,1);
+insert into sys_role_api (role_id,api_id) values (1,2);
+
 delete from sys_dict where type='data_type_java';
 insert into sys_dict (value,label,type,sort) values ('java.lang.Integer','整型','data_type_java',10);
 insert into sys_dict (value,label,type,sort) values ('java.lang.Long','长整型','data_type_java',20);

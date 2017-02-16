@@ -12,6 +12,7 @@ public enum ResultEnum {
 	OTHER_ERROR(3, "其他错误"),
 	EXCEPTION(4, "系统异常"),
 	SERVICE_FAILED(5, "操作失败"),
+	PERMISSION_REJECT(6, "权限不足"),
 	;
 
 	private int code;

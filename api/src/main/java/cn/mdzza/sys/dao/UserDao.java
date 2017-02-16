@@ -12,5 +12,7 @@ public interface UserDao {
 	User get(@Param("username") String username, @Param("password") String password);
 
 	Integer add(@Param("username") String username, @Param("password") String password,
-				@Param("name") String name, @Param("mobile") String mobile);
+				@Param("name") String name, @Param("mobile") String mobile, @Param("createUserId") Long createUserId);
+
+	Boolean checkPermission(@Param("userId") Long userId, @Param("invokeMethod") String invokeMethod);
 }

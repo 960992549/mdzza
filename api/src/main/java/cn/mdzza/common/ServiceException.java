@@ -25,4 +25,8 @@ public class ServiceException extends RuntimeException {
 	public void setResultEnum(ResultEnum resultEnum) {
 		this.resultEnum = resultEnum;
 	}
+
+	public String toString() {
+		return resultEnum + ",\"message\":\"" + getMessage();
+	}
 }

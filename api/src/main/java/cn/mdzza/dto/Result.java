@@ -9,34 +9,27 @@ import cn.mdzza.enums.ResultEnum;
 public class Result<T> {
 	private int code = ResultEnum.SUCCESS.getCode();
 	private String text = ResultEnum.SUCCESS.getText();
+	private String message;
 	private T data;
-
-	public Result() {
-	}
 
 	public Result(ResultEnum resultEnum) {
 		code = resultEnum.getCode();
 		text = resultEnum.getText();
 	}
 
+	public Result(ResultEnum resultEnum, String message) {
+		code = resultEnum.getCode();
+		text = resultEnum.getText();
+		this.message = message;
+	}
+
 	public Result(T data) {
 		this.data = data;
 	}
 
-	public Result(ResultEnum result, T data) {
-		code = result.getCode();
-		text = result.getText();
-		this.data = data;
-	}
-
-	public Result(int code, String text) {
-		this.code = code;
-		this.text = text;
-	}
-
-	public Result(int code, String text, T data) {
-		this.code = code;
-		this.text = text;
+	public Result(ResultEnum resultEnum, T data) {
+		code = resultEnum.getCode();
+		text = resultEnum.getText();
 		this.data = data;
 	}
 
@@ -54,6 +47,14 @@ public class Result<T> {
 
 	public void setText(String text) {
 		this.text = text;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
 	public T getData() {

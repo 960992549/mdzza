@@ -1,6 +1,8 @@
 package cn.mdzza.sys.service;
 
+import cn.mdzza.common.ServiceException;
 import cn.mdzza.constant.ProjectConstant;
+import cn.mdzza.enums.ResultEnum;
 import cn.mdzza.sys.dao.UserDao;
 import cn.mdzza.sys.entity.User;
 import cn.mdzza.util.SyncUtil;
@@ -33,9 +35,7 @@ public class UserService {
 		Map<String, Object> result = new HashMap<String, Object>();
 		User user = userDao.get(username, password);
 		if(user == null) {
-			result.put("isSuccess", false);
-			result.put("message", "用户名或密码错误");
-			return result;
+			throw new ServiceException(ResultEnum.SERVICE_FAILED, "用户名或密码错误");
 		}
 		Date now = new Date();
 		String token = Jwts.builder().setIssuer(ProjectConstant.JWT_ISSUER)
@@ -44,8 +44,6 @@ public class UserService {
 				.setIssuedAt(now).setNotBefore(now)
 				.setId(UUID.randomUUID().toString()).signWith(SignatureAlgorithm.HS256, ProjectConstant.JWT_SIGN_KEY)
 				.compact();
-		result.put("isSuccess", true);
-		result.put("message", "操作成功");
 		result.put("token", token);
 		return result;
 	}
@@ -54,40 +52,40 @@ public class UserService {
 	public Map<String, Object> add(String token, String username, String password, String name, String mobile) {
 		synchronized (SyncUtil.getLock(username)) {
 			Map<String, Object> result = new HashMap<String, Object>();
+			Long userId = handleToken(token, result, "sysUserService.add");
 			User user = userDao.get(username, null);
 			if (user != null) {
-				result.put("isSuccess", false);
-				result.put("message", "用户名已存在");
-				return result;
+				throw new ServiceException(ResultEnum.SERVICE_FAILED, "用户名已存在");
 			}
-			userDao.add(username, password, name, mobile);
-			result.put("isSuccess", true);
-			result.put("message", "操作成功");
-			result.put("token", handleToken(token).get("token"));
+			userDao.add(username, password, name, mobile, userId);
 			return result;
 		}
 	}
 
-	private Map<String, Object> handleToken(String token) {
-		Map<String, Object> data = new HashMap<String, Object>();
+	private Long handleToken(String token, Map<String, Object> result, String invokedMethod) {
 		try {
 			Claims claims = Jwts.parser().setSigningKey(ProjectConstant.JWT_SIGN_KEY)
 					.parseClaimsJws(token).getBody();
 			Date iat = claims.getIssuedAt();
 			Long userId = Long.parseLong(claims.getSubject());
-
+			if(!userDao.checkPermission(userId, invokedMethod)) {
+				throw new ServiceException(ResultEnum.PERMISSION_REJECT);
+			}
 			Date now = new Date();
 			String newToken = token;
 			if(now.getTime() > iat.getTime() + ProjectConstant.JWT_INTERVAL_SECOND * 1000) {
-				newToken = Jwts.builder().setClaims(claims.setExpiration(new Date(now.getTime() + ProjectConstant.JWT_EXPIRE_SECOND * 1000))
+				newToken = Jwts.builder()
+						.setClaims(claims.setExpiration(new Date(now.getTime() + ProjectConstant.JWT_EXPIRE_SECOND * 1000))
 						.setIssuedAt(now).setNotBefore(now).setId(UUID.randomUUID().toString()))
 						.signWith(SignatureAlgorithm.HS256, ProjectConstant.JWT_SIGN_KEY).compact();
 			}
-			data.put("token", newToken);
-			data.put("userId", userId);
-		} catch(Exception e) {
+			result.put("token", newToken);
+			return userId;
+		} catch (ServiceException e) {
+			throw e;
+		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
+			throw new ServiceException(ResultEnum.TOKEN_INVALID);
 		}
-		return data;
 	}
 }

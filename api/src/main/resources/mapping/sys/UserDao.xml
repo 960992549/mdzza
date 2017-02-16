@@ -18,13 +18,27 @@
 			password,
 			name,
 			mobile,
-			status
+			status,
+			create_user_id,
+			create_datetime
 		) values (
 			#{username},
 			#{password},
 			#{name},
 			#{mobile},
-			'normal'
+			'normal',
+			#{createUserId},
+			now()
 		)
 	</insert>
+
+	<select id="checkPermission" resultType="java.lang.Boolean">
+		select if(count(1)=0,0,1)
+		from sys_user a,sys_role b,api_info c,sys_role_api d
+		where a.id = #{userId}
+			and a.role_id=b.id
+			and c.invoke_method=#{invokeMethod}
+			and b.id=d.role_id
+			and c.id=d.api_id
+	</select>
 </mapper>

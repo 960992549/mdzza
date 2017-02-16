@@ -1,5 +1,7 @@
 package cn.mdzza.sys.entity;
 
+import java.util.Date;
+
 /**
  * Created by ydt on 2016/11/1.
  */
@@ -12,6 +14,8 @@ public class User {
 	private String name;
 	private String mobile;
 	private String gender;
+	private Long createUserId;
+	private Date createDatetime;
 
 	public Long getId() {
 		return id;
@@ -75,5 +79,21 @@ public class User {
 
 	public void setGender(String gender) {
 		this.gender = gender;
+	}
+
+	public Long getCreateUserId() {
+		return createUserId;
+	}
+
+	public void setCreateUserId(Long createUserId) {
+		this.createUserId = createUserId;
+	}
+
+	public Date getCreateDatetime() {
+		return createDatetime;
+	}
+
+	public void setCreateDatetime(Date createDatetime) {
+		this.createDatetime = createDatetime;
 	}
 }

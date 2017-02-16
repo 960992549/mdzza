@@ -10,12 +10,12 @@ create table if not exists api_info (
 	description varchar(50) comment '说明',
 	primary key (id)
 );
-alter table api_info comment 'api信息';
+alter table api_info comment '接口信息';
 
 drop table if exists api_input;
 create table if not exists api_input(
 	id bigint not null auto_increment comment '编号',
-	api_id bigint not null comment 'api编号',
+	api_id bigint not null comment '接口编号',
 	name varchar(50) not null comment '参数名',
 	label varchar(50) not null comment '标签',
 	data_type varchar(50) not null comment '数据类型',
@@ -23,7 +23,7 @@ create table if not exists api_input(
 	sort int comment '排序',
 	primary key (id)
 );
-alter table api_input comment 'api入参';
+alter table api_input comment '接口入参';
 
 drop table if exists api_input_validator;
 create table if not exists api_input_validator(
@@ -35,12 +35,12 @@ create table if not exists api_input_validator(
 	sort int comment '排序',
 	primary key (id)
 );
-alter table api_input_validator comment 'api入参校验规则';
+alter table api_input_validator comment '接口入参校验规则';
 
 drop table if exists api_output;
 create table if not exists api_output(
 	id bigint not null auto_increment comment '编号',
-	api_id bigint not null comment 'api编号',
+	api_id bigint not null comment '接口编号',
 	name varchar(50) not null comment '参数名',
 	label varchar(50) not null comment '标签',
 	data_type varchar(50) not null comment '数据类型',
@@ -48,7 +48,7 @@ create table if not exists api_output(
 	sort int comment '排序',
 	primary key (id)
 );
-alter table api_output comment 'api出参';
+alter table api_output comment '接口出参';
 
 drop table if exists api_output_format;
 create table if not exists api_output_format(
@@ -59,7 +59,7 @@ create table if not exists api_output_format(
 	sort int comment '排序',
 	primary key (id)
 );
-alter table api_output_format comment 'api出参转换器';
+alter table api_output_format comment '接口出参转换器';
 
 drop table if exists action_info;
 create table if not exists action_info(
@@ -74,9 +74,9 @@ alter table action_info comment '行为信息';
 drop table if exists api_action;
 create table if not exists api_action (
 	id bigint not null auto_increment comment '编号',
-	api_id bigint not null comment 'api编号',
+	api_id bigint not null comment '接口编号',
 	action_id bigint not null comment '行为编号',
 	status varchar(10) not null comment '状态',
 	primary key (id)
 );
-alter table api_action comment 'api行为配置';
+alter table api_action comment '接口行为配置';
