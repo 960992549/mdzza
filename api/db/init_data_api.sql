@@ -53,3 +53,32 @@ insert into api_input_validator (input_id,rule,message,sort) values (8,'length=1
 delete from api_output where api_id=2;
 insert into api_output (id,api_id,name,label,data_type,sort) values (3,2,'message','说明','java.lang.String',10);
 insert into api_output (id,api_id,name,label,data_type,sort) values (4,2,'token','token','java.lang.String',20);
+
+delete from api_info where id in (3,4,5,6,7);
+insert into api_info (id,name,module,resource,method,invoke_method,description)
+	values (3,'添加接口','api','apiInfo','add','apiInfoService.add','添加接口');
+insert into api_info (id,name,module,resource,method,invoke_method,description)
+	values (4,'配置入参','api','apiInput','config','apiInputService.config','配置接口入参');
+insert into api_info (id,name,module,resource,method,invoke_method,description)
+	values (5,'配置出参','api','apiOutput','config','apiOutputService.config','配置接口出参');
+insert into api_info (id,name,module,resource,method,invoke_method,description)
+	values (6,'配置入参校验规则','api','apiInputValidator','config','apiInputValidatorService.config','配置接口入参校验规则');
+insert into api_info (id,name,module,resource,method,invoke_method,description)
+	values (7,'配置出参转换器','api','apiOutputFormat','config','apiOutputFormatService.config','配置接口出参转换器');
+
+delete from api_input where api_id=3;
+insert into api_input (id,api_id,name,label,data_type,sort) value (9,3,'token','token','java.lang.String',10);
+insert into api_input (id,api_id,name,label,data_type,sort) value (10,3,'name','名称','java.lang.String',20);
+insert into api_input (id,api_id,name,label,data_type,sort) value (11,3,'module','模块','java.lang.String',30);
+insert into api_input (id,api_id,name,label,data_type,sort) value (12,3,'resource','资源','java.lang.String',40);
+insert into api_input (id,api_id,name,label,data_type,sort) value (13,3,'method','方法','java.lang.String',50);
+insert into api_input (id,api_id,name,label,data_type,sort) value (14,3,'invoke_method','调用方法','java.lang.String',60);
+insert into api_input (id,api_id,name,label,data_type,sort) value (15,3,'description','说明','java.lang.String',70);
+
+delete from api_input where api_id=4;
+insert into api_input (id,api_id,name,label,data_type,sort) value (16,4,'token','token','java.lang.String',10);
+insert into api_input (id,api_id,name,label,data_type,sort) value (17,4,'apiId','接口编号','java.lang.Long',20);
+insert into api_input (id,api_id,name,label,data_type,sort) value (18,4,'inputs','入参','java.lang.String',30);
+
+-- user.user.register.input.inputs
+--

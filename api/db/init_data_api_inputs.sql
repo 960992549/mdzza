@@ -1,0 +1,5 @@
+-- userService.register
+-- [{"name":"username","label":"用户名","dataType":"java.lang.String","description":"用户名","sort":10},{"name":"password","label":"密码","dataType":"java.lang.String","description":"密码","sort":20},{"name":"name","label":"姓名","dataType":"java.lang.String","description":"姓名","sort":30},{"name":"gender","label":"性别","dataType":"java.lang.String","description":"性别","sort":40},{"name":"birthday","label":"出生日期","dataType":"java.lang.String","description":"出生日期","sort":50},{"name":"mobile","label":"手机号","dataType":"java.lang.String","description":"手机号","sort":60},{"name":"email","label":"邮箱","dataType":"java.lang.String","description":"邮箱","sort":70},{"name":"nickname","label":"昵称","dataType":"java.lang.String","description":"昵称","sort":80}]
+
+-- userService.login
+-- [{"name":"username","label":"用户名","dataType":"java.lang.String","description":"用户名","sort":10},{"name":"password","label":"密码","dataType":"java.lang.String","description":"登录密码","sort":20}]

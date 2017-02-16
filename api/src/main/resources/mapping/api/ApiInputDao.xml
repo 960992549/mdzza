@@ -9,4 +9,29 @@
 		order by sort
 	</select>
 
+	<delete id="delete">
+		delete from api_input
+		where api_id=#{apiId}
+	</delete>
+
+	<insert id="add">
+		insert into api_input (
+			api_id,
+			name,
+			label,
+			data_type,
+			description,
+			sort
+		) values
+		<foreach collection="apiInputs" item="apiInput" index= "index" separator=",">
+			(
+				#{apiInput.apiId},
+				#{apiInput.name},
+				#{apiInput.label},
+				#{apiInput.dataType},
+				#{apiInput.description},
+				#{apiInput.sort}
+			)
+		</foreach>
+	</insert>
 </mapper>

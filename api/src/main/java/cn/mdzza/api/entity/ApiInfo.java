@@ -1,5 +1,7 @@
 package cn.mdzza.api.entity;
 
+import java.util.Date;
+
 /**
  * Created by ydt on 2017/2/14.
  */
@@ -11,6 +13,10 @@ public class ApiInfo {
 	private String method;
 	private String invokeMethod;
 	private String description;
+	private Long createUserId;
+	private Date createDatetime;
+	private Long lastChangeUserId;
+	private Date lastChangeDatetime;
 
 	public Long getId() {
 		return id;
@@ -66,5 +72,37 @@ public class ApiInfo {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public Long getCreateUserId() {
+		return createUserId;
+	}
+
+	public void setCreateUserId(Long createUserId) {
+		this.createUserId = createUserId;
+	}
+
+	public Date getCreateDatetime() {
+		return createDatetime;
+	}
+
+	public void setCreateDatetime(Date createDatetime) {
+		this.createDatetime = createDatetime;
+	}
+
+	public Long getLastChangeUserId() {
+		return lastChangeUserId;
+	}
+
+	public void setLastChangeUserId(Long lastChangeUserId) {
+		this.lastChangeUserId = lastChangeUserId;
+	}
+
+	public Date getLastChangeDatetime() {
+		return lastChangeDatetime;
+	}
+
+	public void setLastChangeDatetime(Date lastChangeDatetime) {
+		this.lastChangeDatetime = lastChangeDatetime;
 	}
 }

@@ -3,10 +3,10 @@ package cn.mdzza.sys.service;
 import cn.mdzza.common.ServiceException;
 import cn.mdzza.constant.ProjectConstant;
 import cn.mdzza.enums.ResultEnum;
-import cn.mdzza.sys.dao.UserDao;
-import cn.mdzza.sys.entity.User;
+import cn.mdzza.service.BaseService;
+import cn.mdzza.sys.dao.SysUserDao;
+import cn.mdzza.sys.entity.SysUser;
 import cn.mdzza.util.SyncUtil;
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.slf4j.Logger;
@@ -23,23 +23,23 @@ import java.util.UUID;
 /**
  * Created by ydt on 2017/2/14.
  */
-@Service("sysUserService")
+@Service
 @Transactional(readOnly = true)
-public class UserService {
+public class SysUserService extends BaseService {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
-	private UserDao userDao;
+	private SysUserDao sysUserDao;
 
 	public Map<String, Object> login(String username, String password) {
 		Map<String, Object> result = new HashMap<String, Object>();
-		User user = userDao.get(username, password);
-		if(user == null) {
+		SysUser sysUser = sysUserDao.get(username, password);
+		if(sysUser == null) {
 			throw new ServiceException(ResultEnum.SERVICE_FAILED, "用户名或密码错误");
 		}
 		Date now = new Date();
 		String token = Jwts.builder().setIssuer(ProjectConstant.JWT_ISSUER)
-				.setSubject(user.getId().toString()).setAudience("user")
+				.setSubject(sysUser.getId().toString()).setAudience("sysUser")
 				.setExpiration(new Date(now.getTime() + ProjectConstant.JWT_EXPIRE_SECOND * 1000))
 				.setIssuedAt(now).setNotBefore(now)
 				.setId(UUID.randomUUID().toString()).signWith(SignatureAlgorithm.HS256, ProjectConstant.JWT_SIGN_KEY)
@@ -53,39 +53,12 @@ public class UserService {
 		synchronized (SyncUtil.getLock(username)) {
 			Map<String, Object> result = new HashMap<String, Object>();
 			Long userId = handleToken(token, result, "sysUserService.add");
-			User user = userDao.get(username, null);
-			if (user != null) {
+			SysUser sysUser = sysUserDao.get(username, null);
+			if (sysUser != null) {
 				throw new ServiceException(ResultEnum.SERVICE_FAILED, "用户名已存在");
 			}
-			userDao.add(username, password, name, mobile, userId);
+			sysUserDao.add(username, password, name, mobile, userId);
 			return result;
-		}
-	}
-
-	private Long handleToken(String token, Map<String, Object> result, String invokedMethod) {
-		try {
-			Claims claims = Jwts.parser().setSigningKey(ProjectConstant.JWT_SIGN_KEY)
-					.parseClaimsJws(token).getBody();
-			Date iat = claims.getIssuedAt();
-			Long userId = Long.parseLong(claims.getSubject());
-			if(!userDao.checkPermission(userId, invokedMethod)) {
-				throw new ServiceException(ResultEnum.PERMISSION_REJECT);
-			}
-			Date now = new Date();
-			String newToken = token;
-			if(now.getTime() > iat.getTime() + ProjectConstant.JWT_INTERVAL_SECOND * 1000) {
-				newToken = Jwts.builder()
-						.setClaims(claims.setExpiration(new Date(now.getTime() + ProjectConstant.JWT_EXPIRE_SECOND * 1000))
-						.setIssuedAt(now).setNotBefore(now).setId(UUID.randomUUID().toString()))
-						.signWith(SignatureAlgorithm.HS256, ProjectConstant.JWT_SIGN_KEY).compact();
-			}
-			result.put("token", newToken);
-			return userId;
-		} catch (ServiceException e) {
-			throw e;
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			throw new ServiceException(ResultEnum.TOKEN_INVALID);
 		}
 	}
 }

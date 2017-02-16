@@ -8,4 +8,6 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface ApiInfoDao {
 	ApiInfo get(@Param("module") String module, @Param("resource") String resource, @Param("method") String method);
+
+	void add(ApiInfo apiInfo);
 }

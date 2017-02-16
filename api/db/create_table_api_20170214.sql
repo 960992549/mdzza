@@ -5,9 +5,12 @@ create table if not exists api_info (
 	module varchar(20) not null comment '模块',
 	resource varchar(20) not null comment '资源',
 	method varchar(20) not null comment '方法',
-	invoke_method varchar(50) comment '调用方法',
-	-- invoke_method varchar(50) not null comment '调用方法',
+	invoke_method varchar(50) not null comment '调用方法',
 	description varchar(50) comment '说明',
+	create_user_id bigint comment '创建人',
+	create_datetime datetime comment '创建时间',
+	last_change_user_id bigint comment '修改人',
+	last_change_datetime datetime comment '修改时间',
 	primary key (id)
 );
 alter table api_info comment '接口信息';

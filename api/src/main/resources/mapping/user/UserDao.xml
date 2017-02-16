@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.mdzza.user.dao.UserDao">
+
+	<select id="get" resultType="cn.mdzza.user.entity.User">
+		select *
+		from user
+		where username=#{username}
+			<if test="password != null and password != ''">
+				and password=#{password}
+			</if>
+		limit 1
+	</select>
+
+	<insert id="register" useGeneratedKeys="true" keyProperty="id">
+		insert into user (
+			username,
+			password,
+			name,
+			gender,
+			birthday,
+			mobile,
+			email,
+			nickname,
+			status
+		) values (
+			#{username},
+			#{password},
+			#{name},
+			#{gender},
+			#{birthday},
+			#{mobile},
+			#{email},
+			#{nickname},
+			'normal'
+		)
+	</insert>
+</mapper>

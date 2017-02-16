@@ -93,6 +93,11 @@ public class ApiController {
 			Class[] argsClass = new Class[argsClassName.length];
 			for (int i = 0, j = argsClassName.length; i < j; i++) {
 				argsClass[i] = Class.forName(argsClassName[i]);
+				if(Long.class.isAssignableFrom(argsClass[i])) {
+					args[i] = Long.parseLong((String)args[i]);
+				} else if(Integer.class.isAssignableFrom(argsClass[i])) {
+					args[i] = Integer.parseInt((String)args[i]);
+				}
 			}
 			Method method = owner.getClass().getMethod(methodName, argsClass);
 			return method.invoke(owner, args);

@@ -5,16 +5,19 @@ create table if not exists user(
 	password varchar(100) not null comment '密码',
 	name varchar(50) comment '姓名',
 	gender varchar(20) comment '性别',
-	date_of_birth date comment '出生日期',
+	birthday date comment '出生日期',
 	mobile varchar(20) comment '手机号',
 	email varchar(100) comment '邮箱',
 	nickname varchar(50) comment '昵称',
-	level int(11) null comment '等级',
+	status varchar(20) comment '状态',
+	level int(11) comment '等级',
 	experience int(11) comment '经验值',
 	topic_number int(11) comment '发帖数',
 	fans_number int(11) comment '粉丝数量',
 	concern_number int(11) comment '关注数量',
 	label_ids varchar(255) comment '标签',
+	register_datetime datetime comment '注册时间',
+	register_ip varchar(20) comment '注册ip',
 	primary key (id)
 );
 alter table user comment '用户';

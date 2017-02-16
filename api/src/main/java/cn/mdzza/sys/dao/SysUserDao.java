@@ -1,15 +1,15 @@
 package cn.mdzza.sys.dao;
 
-import cn.mdzza.sys.entity.User;
+import cn.mdzza.sys.entity.SysUser;
 import org.apache.ibatis.annotations.Param;
 
 /**
  * Created by ydt on 2017/2/14.
  */
-public interface UserDao {
-	User get(@Param("username") String username);
+public interface SysUserDao {
+	SysUser get(@Param("username") String username);
 
-	User get(@Param("username") String username, @Param("password") String password);
+	SysUser get(@Param("username") String username, @Param("password") String password);
 
 	Integer add(@Param("username") String username, @Param("password") String password,
 				@Param("name") String name, @Param("mobile") String mobile, @Param("createUserId") Long createUserId);

@@ -7,6 +7,7 @@ insert into sys_user (username,password,status,role_id) values ('superadmin','su
 delete from sys_role_api where role_id=1;
 insert into sys_role_api (role_id,api_id) values (1,1);
 insert into sys_role_api (role_id,api_id) values (1,2);
+insert into sys_role_api (role_id,api_id) values (1,3);
 
 delete from sys_dict where type='data_type_java';
 insert into sys_dict (value,label,type,sort) values ('java.lang.Integer','整型','data_type_java',10);

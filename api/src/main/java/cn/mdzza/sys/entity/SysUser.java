@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * Created by ydt on 2016/11/1.
  */
-public class User {
+public class SysUser {
 	private Long id;
 	private String username;
 	private String password;

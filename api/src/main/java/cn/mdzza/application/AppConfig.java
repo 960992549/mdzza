@@ -23,7 +23,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 	@Bean
 	public DataSource getDataSource() {
 		BasicDataSource dataSource = new BasicDataSource();
-		dataSource.setUrl("jdbc:mysql://localhost:3306/mdzza");
+		dataSource.setUrl("jdbc:mysql://localhost:3306/mdzza?useUnicode=true&characterEncoding=utf-8");
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 		dataSource.setUsername("root");
 		dataSource.setPassword("123456");
