@@ -42,7 +42,7 @@ public class ApiOutputFormatService extends BaseService {
 		JsonMapper jsonMapper = JsonMapper.getInstance();
 		List<ApiOutputFormat> apiInputs = jsonMapper.fromJson(formats,
 				jsonMapper.createCollectionType(List.class, ApiOutputFormat.class));
-		if(apiInputs != null) {
+		if(apiInputs != null && apiInputs.size() > 0) {
 			for(ApiOutputFormat apiInputValidator : apiInputs) {
 				apiInputValidator.setOutputId(outputId);
 			}

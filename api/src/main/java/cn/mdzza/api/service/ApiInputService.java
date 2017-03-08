@@ -42,7 +42,7 @@ public class ApiInputService extends BaseService {
 		JsonMapper jsonMapper = JsonMapper.getInstance();
 		List<ApiInput> apiInputs = jsonMapper.fromJson(inputs,
 				jsonMapper.createCollectionType(List.class, ApiInput.class));
-		if(apiInputs != null) {
+		if(apiInputs != null && apiInputs.size() > 0) {
 			for(ApiInput apiInput : apiInputs) {
 				apiInput.setApiId(apiId);
 			}

@@ -53,17 +53,9 @@ function ApiOutputFormats({ dispatch, apiOutputFormats }) {
         <Row key={index}>
           <Col span={4}>
             <Form.Item label="转换器">
-              {getFieldDecorator('format' + index,{
+              {getFieldDecorator('format_' + index,{
                 initialValue: data.format,
                 rules: [{ required: true, message: '请输入规转换器' }],
-              })(<Input />)}
-            </Form.Item>
-          </Col>
-          <Col span={4}>
-            <Form.Item label="提示信息">
-              {getFieldDecorator('message_' + index,{
-                initialValue: data.message,
-                rules: [{ required: true, message: '请输入提示信息' }],
               })(<Input />)}
             </Form.Item>
           </Col>

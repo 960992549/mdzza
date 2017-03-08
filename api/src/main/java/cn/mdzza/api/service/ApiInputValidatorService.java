@@ -42,7 +42,7 @@ public class ApiInputValidatorService extends BaseService {
 		JsonMapper jsonMapper = JsonMapper.getInstance();
 		List<ApiInputValidator> apiInputs = jsonMapper.fromJson(validators,
 				jsonMapper.createCollectionType(List.class, ApiInputValidator.class));
-		if(apiInputs != null) {
+		if(apiInputs != null && apiInputs.size() > 0) {
 			for(ApiInputValidator apiInputValidator : apiInputs) {
 				apiInputValidator.setInputId(inputId);
 			}
