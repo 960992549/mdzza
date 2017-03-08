@@ -27,7 +27,7 @@ public class ApiOutputService extends BaseService {
 
 	public Map<String, Object> list(String token, Long apiId) {
 		Map<String, Object> result = new HashMap<String, Object>();
-		handleToken(token, result, "apiInfoService.get");
+		handleToken(token, result, "apiOutputService.list");
 		List<ApiOutput> list = apiOutputDao.get(apiId);
 		result.put("list", list);
 		return result;
@@ -36,7 +36,7 @@ public class ApiOutputService extends BaseService {
 	@Transactional
 	public Map<String, Object> save(String token, Long apiId, String outputs) {
 		Map<String, Object> result = new HashMap<String, Object>();
-		handleToken(token, result, "apiInfoService.add");
+		handleToken(token, result, "apiOutputService.save");
 		apiOutputDao.delete(apiId);
 
 		JsonMapper jsonMapper = JsonMapper.getInstance();

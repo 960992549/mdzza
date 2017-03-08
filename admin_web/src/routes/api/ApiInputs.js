@@ -1,22 +1,23 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
-import { Row, Col, Input, Form, Button } from 'antd';
+import { Row, Col, Input, Form, Button, InputNumber } from 'antd';
 
 function ApiInputs({ dispatch, apiInputs }) {
-  const { apiId, list } = apiInputs;
+  const { list } = apiInputs;
 
   const FormInputs = Form.create()(({
     form: {
       getFieldDecorator,
       validateFields,
       getFieldsValue,
+      getFieldValue,
       setFieldsValue,
     }
   }) => {
     function add() {
-      const item = { name: '', label: '', dataType: '', description: '', sort : '' };
-      list.push(item);
+      changeList();
+      list.push({ name: '', label: '', dataType: '', description: '', sort : '' });
       dispatch({ type: 'apiInputs/setState', payload: { list }});
     }
 
@@ -24,14 +25,27 @@ function ApiInputs({ dispatch, apiInputs }) {
       e.preventDefault();
       validateFields((error, values) => {
         if(!error) {
+          changeList();
+          dispatch({ type: 'apiInputs/setState', payload: { list }});
           dispatch({ type: 'apiInputs/save', payload: values });
         }
       });
     }
 
     function del(index) {
+      changeList();
       list.splice(index, 1);
       dispatch({ type: 'apiInputs/setState', payload: { list }});
+    }
+
+    //修改list的值为form表单中的数据
+    function changeList() {
+      const fields = ['name', 'label', 'dataType', 'description', 'sort'];
+      for(let i = 0; i < list.length; i++) {
+        for(let j = 0; j < fields.length; j++) {
+          list[i][fields[j]] = getFieldValue(fields[j] + "_" + i);
+        }
+      }
     }
 
     const Inputs = list.map((data, index) => {
@@ -41,6 +55,7 @@ function ApiInputs({ dispatch, apiInputs }) {
             <Form.Item label="参数名">
               {getFieldDecorator('name_' + index,{
                 initialValue: data.name,
+                rules: [{ required: true, message: '请输入参数名' }],
               })(<Input />)}
             </Form.Item>
           </Col>
@@ -48,6 +63,7 @@ function ApiInputs({ dispatch, apiInputs }) {
             <Form.Item label="标签">
               {getFieldDecorator('label_' + index,{
                 initialValue: data.label,
+                rules: [{ required: true, message: '请输入标签' }],
               })(<Input />)}
             </Form.Item>
           </Col>
@@ -55,6 +71,7 @@ function ApiInputs({ dispatch, apiInputs }) {
             <Form.Item label="数据类型">
               {getFieldDecorator('dataType_' + index,{
                 initialValue: data.dataType,
+                rules: [{ required: true, message: '请输入数据类型' }],
               })(<Input />)}
             </Form.Item>
           </Col>
@@ -69,7 +86,8 @@ function ApiInputs({ dispatch, apiInputs }) {
             <Form.Item label="排序">
               {getFieldDecorator('sort_' + index,{
                 initialValue: data.sort,
-              })(<Input />)}
+                rules: [{ required: true, message: '请输入排序' }],
+              })(<InputNumber min={0} step={10} />)}
             </Form.Item>
           </Col>
           <Col span={4}>
@@ -82,13 +100,9 @@ function ApiInputs({ dispatch, apiInputs }) {
         </Row>
       );
     });
+
     return (
       <Form inline>
-        <Form.Item label="接口编号" style={{display: 'none'}}>
-          {getFieldDecorator('apiId',{
-            initialValue: apiId,
-          })(<Input />)}
-        </Form.Item>
         {Inputs}
         <Form.Item>
           <Button onClick={add}>

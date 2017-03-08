@@ -39,8 +39,10 @@ export default {
       const list = projectUtil.handleResult(data, false).list;
       yield put({ type: 'setState', payload: { list } });
     },
-    *save({ payload }, { call, put }) {
-      let data = yield request(saveInputsUrl, parse(payload));
+    *save({ payload }, { select, call, put }) {
+      const state = yield select(({ apiInputs }) => apiInputs);
+      const params = { apiId: state.apiId, inputs: JSON.stringify(state.list)};
+      let data = yield request(saveInputsUrl, parse(params));
       projectUtil.handleResult(data);
     },
   },

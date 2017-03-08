@@ -27,7 +27,7 @@ public class ApiInputService extends BaseService {
 
 	public Map<String, Object> list(String token, Long apiId) {
 		Map<String, Object> result = new HashMap<String, Object>();
-		handleToken(token, result, "apiInfoService.list");
+		handleToken(token, result, "apiInputService.list");
 		List<ApiInput> list = apiInputDao.get(apiId);
 		result.put("list", list);
 		return result;

@@ -24,7 +24,7 @@ function Login({dispatch, user}) {
       <Form onSubmit={handleSubmit}>
         <Form.Item>
           {getFieldDecorator('username', {
-            rules: [{ required: true, message: '请输入用户名!' }],
+            rules: [{ required: true, message: '请输入用户名' }],
           })(
             <Input addonBefore={<Icon type="user" />} placeholder="用户名" />
           )}
@@ -43,7 +43,7 @@ function Login({dispatch, user}) {
           })(
             <Checkbox>Remember me</Checkbox>
           )}
-          <Button type="primary" htmlType="submit" className="login-form-button">
+          <Button type="primary" htmlType="submit">
             登录
           </Button>
         </Form.Item>
