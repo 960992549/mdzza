@@ -31,15 +31,23 @@ public class SysUserService extends BaseService {
 	@Autowired
 	private SysUserDao sysUserDao;
 
+	public Map<String, Object> get(String token) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		Long userId = handleToken(token, result, "sysUserService.get");
+		SysUser user = sysUserDao.get(userId, null, null);
+		result.put("username", user.getUsername());
+		return result;
+	}
+
 	public Map<String, Object> login(String username, String password) {
 		Map<String, Object> result = new HashMap<String, Object>();
-		SysUser sysUser = sysUserDao.get(username, password);
-		if(sysUser == null) {
+		SysUser user = sysUserDao.get(null, username, password);
+		if(user == null) {
 			throw new ServiceException(ResultEnum.SERVICE_FAILED, "用户名或密码错误");
 		}
 		Date now = new Date();
 		String token = Jwts.builder().setIssuer(ProjectConstant.JWT_ISSUER)
-				.setSubject(sysUser.getId().toString()).setAudience("sysUser")
+				.setSubject(user.getId().toString()).setAudience("sysUser")
 				.setExpiration(new Date(now.getTime() + ProjectConstant.JWT_EXPIRE_SECOND * 1000))
 				.setIssuedAt(now).setNotBefore(now)
 				.setId(UUID.randomUUID().toString()).signWith(SignatureAlgorithm.HS256, ProjectConstant.JWT_SIGN_KEY)
@@ -53,8 +61,8 @@ public class SysUserService extends BaseService {
 		synchronized (SyncUtil.getLock(username)) {
 			Map<String, Object> result = new HashMap<String, Object>();
 			Long userId = handleToken(token, result, "sysUserService.add");
-			SysUser sysUser = sysUserDao.get(username, null);
-			if (sysUser != null) {
+			SysUser user = sysUserDao.get(null, username, null);
+			if (user != null) {
 				throw new ServiceException(ResultEnum.SERVICE_FAILED, "用户名已存在");
 			}
 			sysUserDao.add(username, password, name, mobile, userId);

@@ -5,10 +5,26 @@
 	<select id="get" resultType="cn.mdzza.api.entity.ApiInfo">
 		select *
 		from api_info
-		where module=#{module}
-			and resource=#{resource}
-			and method=#{method}
+		<where>
+			<if test="id != null">
+				and id = #{id}
+			</if>
+			<if test="module != null">
+				and module = #{module}
+			</if>
+			<if test="resource != null">
+				and resource = #{resource}
+			</if>
+			<if test="method != null">
+				and method = #{method}
+			</if>
+		</where>
 		limit 1
+	</select>
+
+	<select id="list" resultType="cn.mdzza.api.entity.ApiInfo">
+		select *
+		from api_info
 	</select>
 
 	<insert id="add" useGeneratedKeys="true" keyProperty="id">
@@ -36,4 +52,18 @@
 			  #{lastChangeDatetime}
 		)
 	</insert>
+
+	<update id="edit">
+		update api_info
+		set
+			name = #{name},
+			module = #{module},
+			resource = #{resource},
+			method = #{method},
+			invoke_method = #{invokeMethod},
+			description = #{description},
+			last_change_user_id = #{lastChangeUserId},
+			last_change_datetime = #{lastChangeDatetime}
+		where id = #{id}
+	</update>
 </mapper>

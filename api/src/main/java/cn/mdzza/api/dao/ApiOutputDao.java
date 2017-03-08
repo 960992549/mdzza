@@ -10,4 +10,8 @@ import java.util.List;
  */
 public interface ApiOutputDao {
 	List<ApiOutput> get(@Param("apiId") Long apiId);
+
+	void delete(@Param("apiId") Long apiId);
+
+	void add(@Param("apiOutputs") List<ApiOutput> apiOutputs);
 }

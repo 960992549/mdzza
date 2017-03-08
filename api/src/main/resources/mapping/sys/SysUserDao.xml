@@ -5,11 +5,18 @@
 	<select id="get" resultType="cn.mdzza.sys.entity.SysUser">
 		select *
 		from sys_user
-		where username=#{username}
+		<where>
+			<if test="id != null">
+				and id=#{id}
+			</if>
+			<if test="username != null and username != ''">
+				and username=#{username}
+			</if>
 			<if test="password != null and password != ''">
 				and password=#{password}
 			</if>
-		limit 1
+			limit 1
+		</where>
 	</select>
 
 	<insert id="add">

@@ -12,10 +12,7 @@ import cn.mdzza.util.SpringContextHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.InvocationTargetException;
@@ -43,8 +40,10 @@ public class ApiController {
 	@Autowired
 	private ApiOutputFormatService apiOutputFormatService;
 
+	@CrossOrigin(origins = "*", maxAge = 3600)
 	@RequestMapping("{module}/{resource}/{method}")
-	public Result api(@PathVariable String module, @PathVariable String resource, @PathVariable String method, HttpServletRequest request) {
+	public Result api(@PathVariable String module, @PathVariable String resource, @PathVariable String method,
+					  HttpServletRequest request) {
 		//获取apiInfo
 		ApiInfo apiInfo = apiInfoService.get(module, resource, method);
 		//获取入参
@@ -94,9 +93,17 @@ public class ApiController {
 			for (int i = 0, j = argsClassName.length; i < j; i++) {
 				argsClass[i] = Class.forName(argsClassName[i]);
 				if(Long.class.isAssignableFrom(argsClass[i])) {
-					args[i] = Long.parseLong((String)args[i]);
+					try {
+						args[i] = Long.parseLong((String) args[i]);
+					} catch(Exception e) {
+						args[i] = 0L;
+					}
 				} else if(Integer.class.isAssignableFrom(argsClass[i])) {
-					args[i] = Integer.parseInt((String)args[i]);
+					try {
+						args[i] = Integer.parseInt((String)args[i]);
+					} catch(Exception e) {
+						args[i] = 0;
+					}
 				}
 			}
 			Method method = owner.getClass().getMethod(methodName, argsClass);

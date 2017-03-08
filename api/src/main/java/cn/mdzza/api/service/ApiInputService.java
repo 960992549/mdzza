@@ -25,10 +25,18 @@ public class ApiInputService extends BaseService {
 		return apiInputDao.get(apiId);
 	}
 
-	@Transactional
-	public Map<String, Object> config(String token, Long apiId, String inputs) {
+	public Map<String, Object> list(String token, Long apiId) {
 		Map<String, Object> result = new HashMap<String, Object>();
-		handleToken(token, result, "apiInfoService.add");
+		handleToken(token, result, "apiInfoService.list");
+		List<ApiInput> list = apiInputDao.get(apiId);
+		result.put("list", list);
+		return result;
+	}
+
+	@Transactional
+	public Map<String, Object> save(String token, Long apiId, String inputs) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		handleToken(token, result, "apiInputService.save");
 		apiInputDao.delete(apiId);
 
 		JsonMapper jsonMapper = JsonMapper.getInstance();

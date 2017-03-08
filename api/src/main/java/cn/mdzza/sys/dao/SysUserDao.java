@@ -7,9 +7,7 @@ import org.apache.ibatis.annotations.Param;
  * Created by ydt on 2017/2/14.
  */
 public interface SysUserDao {
-	SysUser get(@Param("username") String username);
-
-	SysUser get(@Param("username") String username, @Param("password") String password);
+	SysUser get(@Param("id") Long id, @Param("username") String username, @Param("password") String password);
 
 	Integer add(@Param("username") String username, @Param("password") String password,
 				@Param("name") String name, @Param("mobile") String mobile, @Param("createUserId") Long createUserId);
