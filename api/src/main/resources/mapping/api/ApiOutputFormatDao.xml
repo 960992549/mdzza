@@ -5,8 +5,29 @@
 	<select id="get" resultType="cn.mdzza.api.entity.ApiOutputFormat">
 		select *
 		from api_output_format
-		where out_id=#{outId}
+		where output_id=#{outputId}
 		order by sort
 	</select>
 
+	<delete id="delete">
+		delete from api_output_format
+		where output_id=#{outputId}
+	</delete>
+
+	<insert id="add">
+		insert into api_output_format (
+		output_id,
+		format,
+		description,
+		sort
+		) values
+		<foreach collection="apiOutputFormats" item="apiOutputFormat" index= "index" separator=",">
+			(
+			#{apiOutputFormat.outputId},
+			#{apiOutputFormat.format},
+			#{apiOutputFormat.description},
+			#{apiOutputFormat.sort}
+			)
+		</foreach>
+	</insert>
 </mapper>

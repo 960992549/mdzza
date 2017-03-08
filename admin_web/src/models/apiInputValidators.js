@@ -2,25 +2,25 @@ import { parse } from 'qs';
 import request from '../utils/request';
 import * as projectUtil from '../utils/projectUtil';
 
-const getApiInputsUrl = 'api/apiInput/list';
-const saveApiInputsUrl = 'api/apiInput/save';
+const getApiInputValidatorsUrl = 'api/apiInputValidator/list';
+const saveApiInputValidatorsUrl = 'api/apiInputValidator/save';
 
 export default {
-  namespace: 'apiInputs',
+  namespace: 'apiInputValidators',
   state: {
-    apiId: null,
+    inputId: null,
     list: [],
   },
   subscriptions: {
     setup({ dispatch, history }) {
       history.listen((location) => {
-        const exec = new RegExp('/api/apiInputs/([0-9]+$)').exec(location.pathname);
+        const exec = new RegExp('/api/apiInput/apiInputValidators/([0-9]+$)').exec(location.pathname);
         if(exec) {
-          const apiId = exec[1];
+          const inputId = exec[1];
           dispatch({
             type: 'init',
             payload: {
-              apiId,
+              inputId,
             }
           });
         }
@@ -29,14 +29,14 @@ export default {
   },
   effects: {
     *init({ payload }, { call, put }) {
-      let data = yield request(getApiInputsUrl, parse(payload));
+      let data = yield request(getApiInputValidatorsUrl, parse(payload));
       const list = projectUtil.handleResult(data, false).list;
       yield put({ type: 'setState', payload: { ...payload, list } });
     },
     *save({ payload }, { select, call, put }) {
-      const state = yield select(({ apiInputs }) => apiInputs);
-      const params = { apiId: state.apiId, inputs: JSON.stringify(state.list)};
-      let data = yield request(saveApiInputsUrl, parse(params));
+      const state = yield select(({ apiInputValidators }) => apiInputValidators);
+      const params = { inputId: state.inputId, validators: JSON.stringify(state.list)};
+      let data = yield request(saveApiInputValidatorsUrl, parse(params));
       projectUtil.handleResult(data);
     },
   },

@@ -83,7 +83,7 @@ function Api({ dispatch, api }) {
         </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit">
-            添加
+            保存
           </Button>
         </Form.Item>
       </Form>

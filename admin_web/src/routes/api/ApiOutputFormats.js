@@ -3,10 +3,10 @@ import { connect } from 'dva';
 import { Link } from 'dva/router';
 import { Row, Col, Input, Form, Button, InputNumber } from 'antd';
 
-function ApiOutputs({ dispatch, apiOutputs }) {
-  const { list } = apiOutputs;
+function ApiOutputFormats({ dispatch, apiOutputFormats }) {
+  const { list } = apiOutputFormats;
 
-  const FormOutputs = Form.create()(({
+  const FormFormats = Form.create()(({
     form: {
       getFieldDecorator,
       validateFields,
@@ -17,8 +17,8 @@ function ApiOutputs({ dispatch, apiOutputs }) {
   }) => {
     function add() {
       changeList();
-      list.push({ name: '', label: '', dataType: '', description: '', sort : '' });
-      dispatch({ type: 'apiOutputs/setState', payload: { list }});
+      list.push({ format: '', description: '', sort : '' });
+      dispatch({ type: 'apiOutputFormats/setState', payload: { list }});
     }
 
     function save(e) {
@@ -26,8 +26,8 @@ function ApiOutputs({ dispatch, apiOutputs }) {
       validateFields((error, values) => {
         if(!error) {
           changeList();
-          dispatch({ type: 'apiOutputs/setState', payload: { list }});
-          dispatch({ type: 'apiOutputs/save', payload: values });
+          dispatch({ type: 'apiOutputFormats/setState', payload: { list }});
+          dispatch({ type: 'apiOutputFormats/save', payload: values });
         }
       });
     }
@@ -35,12 +35,12 @@ function ApiOutputs({ dispatch, apiOutputs }) {
     function del(index) {
       changeList();
       list.splice(index, 1);
-      dispatch({ type: 'apiOutputs/setState', payload: { list }});
+      dispatch({ type: 'apiOutputFormats/setState', payload: { list }});
     }
 
     //修改list的值为form表单中的数据
     function changeList() {
-      const fields = ['name', 'label', 'dataType', 'description', 'sort'];
+      const fields = ['format', 'description', 'sort'];
       for(let i = 0; i < list.length; i++) {
         for(let j = 0; j < fields.length; j++) {
           list[i][fields[j]] = getFieldValue(fields[j] + "_" + i);
@@ -48,30 +48,22 @@ function ApiOutputs({ dispatch, apiOutputs }) {
       }
     }
 
-    const Outputs = list.map((data, index) => {
+    const Formats = list.map((data, index) => {
       return (
         <Row key={index}>
           <Col span={4}>
-            <Form.Item label="参数名">
-              {getFieldDecorator('name_' + index,{
-                initialValue: data.name,
-                rules: [{ required: true, message: '请输入参数名' }],
+            <Form.Item label="转换器">
+              {getFieldDecorator('format' + index,{
+                initialValue: data.format,
+                rules: [{ required: true, message: '请输入规转换器' }],
               })(<Input />)}
             </Form.Item>
           </Col>
           <Col span={4}>
-            <Form.Item label="标签">
-              {getFieldDecorator('label_' + index,{
-                initialValue: data.label,
-                rules: [{ required: true, message: '请输入标签' }],
-              })(<Input />)}
-            </Form.Item>
-          </Col>
-          <Col span={4}>
-            <Form.Item label="数据类型">
-              {getFieldDecorator('dataType_' + index,{
-                initialValue: data.dataType,
-                rules: [{ required: true, message: '请输入数据类型' }],
+            <Form.Item label="提示信息">
+              {getFieldDecorator('message_' + index,{
+                initialValue: data.message,
+                rules: [{ required: true, message: '请输入提示信息' }],
               })(<Input />)}
             </Form.Item>
           </Col>
@@ -92,8 +84,6 @@ function ApiOutputs({ dispatch, apiOutputs }) {
           </Col>
           <Col span={4}>
             <Form.Item>
-              <Link to={"/api/apiOutput/apiOutputFormats/" + data.id}>配置转换规则</Link>
-              <span className="ant-divider" />
               <a onClick={()=>del(index)}>删除</a>
             </Form.Item>
           </Col>
@@ -103,10 +93,10 @@ function ApiOutputs({ dispatch, apiOutputs }) {
 
     return (
       <Form inline>
-        {Outputs}
+        {Formats}
         <Form.Item>
           <Button onClick={add}>
-            添加出参
+            添加转换器
           </Button>
           <Button onClick={save}>
             保存配置
@@ -118,13 +108,13 @@ function ApiOutputs({ dispatch, apiOutputs }) {
 
   return (
     <div>
-      <FormOutputs/>
+      <FormFormats/>
     </div>
   );
 }
 
-function mapStateToProps({ apiOutputs }) {
-  return { apiOutputs };
+function mapStateToProps({ apiOutputFormats }) {
+  return { apiOutputFormats };
 }
 
-export default connect(mapStateToProps)(ApiOutputs);
+export default connect(mapStateToProps)(ApiOutputFormats);

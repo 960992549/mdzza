@@ -3,7 +3,7 @@ import request from '../utils/request';
 import * as projectUtil from '../utils/projectUtil';
 
 const getApiOutputsUrl = 'api/apiOutput/list';
-const saveOutputsUrl = 'api/apiOutput/save';
+const saveApiOutputsUrl = 'api/apiOutput/save';
 
 export default {
   namespace: 'apiOutputs',
@@ -18,12 +18,6 @@ export default {
         if(exec) {
           const apiId = exec[1];
           dispatch({
-            type: 'setState',
-            payload: {
-              apiId,
-            }
-          });
-          dispatch({
             type: 'init',
             payload: {
               apiId,
@@ -37,12 +31,12 @@ export default {
     *init({ payload }, { call, put }) {
       let data = yield request(getApiOutputsUrl, parse(payload));
       const list = projectUtil.handleResult(data, false).list;
-      yield put({ type: 'setState', payload: { list } });
+      yield put({ type: 'setState', payload: { ...payload, list } });
     },
     *save({ payload }, { select, call, put }) {
       const state = yield select(({ apiOutputs }) => apiOutputs);
       const params = { apiId: state.apiId, outputs: JSON.stringify(state.list)};
-      let data = yield request(saveOutputsUrl, parse(params));
+      let data = yield request(saveApiOutputsUrl, parse(params));
       projectUtil.handleResult(data);
     },
   },

@@ -10,4 +10,8 @@ import java.util.List;
  */
 public interface ApiInputValidatorDao {
 	List<ApiInputValidator> get(@Param("inputId") Long inputId);
+
+	void delete(@Param("inputId") Long inputId);
+
+	void add(@Param("apiInputValidators") List<ApiInputValidator> apiInputValidators);
 }

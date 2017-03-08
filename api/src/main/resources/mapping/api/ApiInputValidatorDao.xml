@@ -9,4 +9,28 @@
 		order by sort
 	</select>
 
+	<delete id="delete">
+		delete from api_input_validator
+		where input_id=#{inputId}
+	</delete>
+
+	<insert id="add">
+		insert into api_input_validator (
+		input_id,
+		rule,
+		message,
+		description,
+		sort
+		) values
+		<foreach collection="apiInputValidators" item="apiInputValidator" index= "index" separator=",">
+			(
+			#{apiInputValidator.inputId},
+			#{apiInputValidator.rule},
+			#{apiInputValidator.message},
+			#{apiInputValidator.description},
+			#{apiInputValidator.sort}
+			)
+		</foreach>
+	</insert>
+
 </mapper>

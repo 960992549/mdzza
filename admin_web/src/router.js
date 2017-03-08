@@ -7,6 +7,8 @@ import Apis from './routes/api/Apis';
 import Api from './routes/api/Api';
 import ApiInputs from './routes/api/ApiInputs';
 import ApiOutputs from './routes/api/ApiOutputs';
+import ApiInputValidators from './routes/api/ApiInputValidators';
+import ApiOutputFormats from './routes/api/ApiOutputFormats';
 
 function RouterConfig({ history }) {
   return (
@@ -20,6 +22,8 @@ function RouterConfig({ history }) {
           <Route path="add" component={Api}/>
           <Route path="apiInputs/:apiId" component={ApiInputs}/>
           <Route path="apiOutputs/:apiId" component={ApiOutputs}/>
+          <Route path="apiInput/apiInputValidators/:inputId" component={ApiInputValidators}/>
+          <Route path="apiOutput/apiOutputFormats/:outputId" component={ApiOutputFormats}/>
         </Route>
       </Route>
     </Router>

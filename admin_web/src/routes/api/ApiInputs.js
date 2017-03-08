@@ -92,7 +92,7 @@ function ApiInputs({ dispatch, apiInputs }) {
           </Col>
           <Col span={4}>
             <Form.Item>
-              <Link to={"/api/apiInputValidators" + data.id}>配置校验规则</Link>
+              <Link to={"/api/apiInput/apiInputValidators/" + data.id}>配置校验规则</Link>
               <span className="ant-divider" />
               <a onClick={()=>del(index)}>删除</a>
             </Form.Item>

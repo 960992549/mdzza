@@ -13,6 +13,8 @@ app.model(require('./models/api'));
 app.model(require('./models/apis'));
 app.model(require('./models/apiInputs'));
 app.model(require('./models/apiOutputs'));
+app.model(require('./models/apiInputValidators'));
+app.model(require('./models/apiOutputFormats'));
 
 // 4. Router
 app.router(require('./router'));
