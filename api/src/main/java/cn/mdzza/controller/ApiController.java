@@ -1,6 +1,6 @@
 package cn.mdzza.controller;
 
-import cn.mdzza.api.entity.ApiInfo;
+import cn.mdzza.api.entity.Api;
 import cn.mdzza.api.entity.ApiInput;
 import cn.mdzza.api.entity.ApiInputValidator;
 import cn.mdzza.api.entity.ApiOutput;
@@ -30,7 +30,7 @@ public class ApiController {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
-	private ApiInfoService apiInfoService;
+	private ApiService apiService;
 	@Autowired
 	private ApiInputService apiInputService;
 	@Autowired
@@ -44,10 +44,10 @@ public class ApiController {
 	@RequestMapping("{module}/{resource}/{method}")
 	public Result api(@PathVariable String module, @PathVariable String resource, @PathVariable String method,
 					  HttpServletRequest request) {
-		//获取apiInfo
-		ApiInfo apiInfo = apiInfoService.get(module, resource, method);
+		//获取api
+		Api api = apiService.get(module, resource, method);
 		//获取入参
-		List<ApiInput> inputs = apiInputService.get(apiInfo.getId());
+		List<ApiInput> inputs = apiInputService.get(api.getId());
 		Object[] args = new Object[inputs.size()];
 		String[] argsClassName = new String[inputs.size()];
 		int i = 0;
@@ -68,10 +68,10 @@ public class ApiController {
 		//调用service
 		try {
 			Map<String, Object> result = (Map<String, Object>) invokeMethod(
-					SpringContextHolder.getBean(apiInfo.getInvokeMethod().split("\\.")[0]),
-					apiInfo.getInvokeMethod().split("\\.")[1], args, argsClassName);
+					SpringContextHolder.getBean(api.getInvokeMethod().split("\\.")[0]),
+					api.getInvokeMethod().split("\\.")[1], args, argsClassName);
 			//获取出参
-			List<ApiOutput> outputs = apiOutputService.get(apiInfo.getId());
+			List<ApiOutput> outputs = apiOutputService.get(api.getId());
 			//获取出参转换器
 			Map<String, Object> data = new HashMap<String, Object>();
 			for(ApiOutput output : outputs) {
