@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.mdzza.api.dao.ApiInfoDao">
+<mapper namespace="cn.mdzza.api.dao.ApiDao">
 
-	<select id="get" resultType="cn.mdzza.api.entity.ApiInfo">
+	<select id="get" resultType="cn.mdzza.api.entity.Api">
 		select *
-		from api_info
+		from api
 		<where>
 			<if test="id != null">
 				and id = #{id}
@@ -22,13 +22,14 @@
 		limit 1
 	</select>
 
-	<select id="list" resultType="cn.mdzza.api.entity.ApiInfo">
+	<select id="list" resultType="cn.mdzza.api.entity.Api">
 		select *
-		from api_info
+		from api
+		order by module,resource,method
 	</select>
 
 	<insert id="add" useGeneratedKeys="true" keyProperty="id">
-		insert into api_info (
+		insert into api (
 			name,
 			module,
 			resource,
@@ -54,7 +55,7 @@
 	</insert>
 
 	<update id="edit">
-		update api_info
+		update api
 		set
 			name = #{name},
 			module = #{module},
@@ -64,6 +65,11 @@
 			description = #{description},
 			last_change_user_id = #{lastChangeUserId},
 			last_change_datetime = #{lastChangeDatetime}
+		where id = #{id}
+	</update>
+
+	<update id="delete">
+		delete from api
 		where id = #{id}
 	</update>
 </mapper>
