@@ -1,11 +1,22 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
-import { Table  } from 'antd';
+import { Table, Popconfirm  } from 'antd';
 
-function Apis({ apis }) {
+function Apis({ dispatch, apis }) {
+
+  function del(id) {
+    dispatch({ type: "apis/del", payload: { id } });
+  }
 
   const columns = [{
+    title: '序号',
+    key: 'index',
+    width: '5%',
+    render: (text, record, index) => (
+      <span>{index + 1}</span>
+    ),
+  },{
     title: '编号',
     dataIndex: 'id',
     key: 'id',
@@ -45,6 +56,10 @@ function Apis({ apis }) {
         <Link to={'/api/apiInputs/' + record.id}>配置入参</Link>
         <span className="ant-divider" />
         <Link to={'/api/apiOutputs/' + record.id}>配置出参</Link>
+        <span className="ant-divider" />
+        <Popconfirm title="确定删除此接口吗？" onConfirm={()=>del(record.id)}>
+          <a>删除</a>
+        </Popconfirm>
       </span>
     ),
   }];
