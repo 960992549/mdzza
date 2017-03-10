@@ -34,9 +34,9 @@ public class ApiInputValidatorService extends BaseService {
 	}
 
 	@Transactional
-	public Map<String, Object> save(String token, Long inputId, String validators) {
+	public Map<String, Object> config(String token, Long inputId, String validators) {
 		Map<String, Object> result = new HashMap<String, Object>();
-		handleToken(token, result, "apiInputValidatorService.save");
+		handleToken(token, result, "apiInputValidatorService.config");
 		apiInputValidatorDao.delete(inputId);
 
 		JsonMapper jsonMapper = JsonMapper.getInstance();

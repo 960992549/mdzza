@@ -34,9 +34,9 @@ public class ApiInputService extends BaseService {
 	}
 
 	@Transactional
-	public Map<String, Object> save(String token, Long apiId, String inputs) {
+	public Map<String, Object> config(String token, Long apiId, String inputs) {
 		Map<String, Object> result = new HashMap<String, Object>();
-		handleToken(token, result, "apiInputService.save");
+		handleToken(token, result, "apiInputService.config");
 		apiInputDao.delete(apiId);
 
 		JsonMapper jsonMapper = JsonMapper.getInstance();

@@ -41,7 +41,7 @@
 
 	<select id="checkPermission" resultType="java.lang.Boolean">
 		select if(count(1)=0,0,1)
-		from sys_user a,sys_role b,api_info c,sys_role_api d
+		from sys_user a,sys_role b,api c,sys_role_api d
 		where a.id = #{userId}
 			and a.role_id=b.id
 			and c.invoke_method=#{invokeMethod}

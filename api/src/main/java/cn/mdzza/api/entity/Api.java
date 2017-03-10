@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * Created by ydt on 2017/2/14.
  */
-public class ApiInfo {
+public class Api {
 	private Long id;
 	private String name;
 	private String module;

@@ -34,9 +34,9 @@ public class ApiOutputFormatService extends BaseService {
 	}
 
 	@Transactional
-	public Map<String, Object> save(String token, Long outputId, String formats) {
+	public Map<String, Object> config(String token, Long outputId, String formats) {
 		Map<String, Object> result = new HashMap<String, Object>();
-		handleToken(token, result, "apiOutputFormatService.save");
+		handleToken(token, result, "apiOutputFormatService.config");
 		apiOutputFormatDao.delete(outputId);
 
 		JsonMapper jsonMapper = JsonMapper.getInstance();
