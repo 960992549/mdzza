@@ -4,7 +4,7 @@ import { Link } from 'dva/router';
 import { Row, Col, Input, Form, Button, InputNumber } from 'antd';
 
 function ApiInputs({ dispatch, apiInputs }) {
-  const { list } = apiInputs;
+  const { list } = apiInputs11;
 
   const FormInputs = Form.create()(({
     form: {
