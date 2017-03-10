@@ -2,7 +2,7 @@ import { parse } from 'qs';
 import request from '../utils/request';
 import * as projectUtil from '../utils/projectUtil';
 
-const loginUrl = 'sys/user/login';
+const loginUrl = 'sys/sysUser/login';
 
 export default {
   namespace: 'user',

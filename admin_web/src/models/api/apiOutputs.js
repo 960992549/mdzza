@@ -1,9 +1,9 @@
 import { parse } from 'qs';
-import request from '../utils/request';
-import * as projectUtil from '../utils/projectUtil';
+import request from '../../utils/request';
+import * as projectUtil from '../../utils/projectUtil';
 
 const getApiOutputsUrl = 'api/apiOutput/list';
-const saveApiOutputsUrl = 'api/apiOutput/save';
+const configApiOutputsUrl = 'api/apiOutput/config';
 
 export default {
   namespace: 'apiOutputs',
@@ -36,13 +36,13 @@ export default {
     *save({ payload }, { select, call, put }) {
       const state = yield select(({ apiOutputs }) => apiOutputs);
       const params = { apiId: state.apiId, outputs: JSON.stringify(state.list)};
-      let data = yield request(saveApiOutputsUrl, parse(params));
+      let data = yield request(configApiOutputsUrl, parse(params));
       projectUtil.handleResult(data);
     },
   },
   reducers: {
-    setState(state, action) {   //修改state值
-      return { ...state, ...action.payload};
+    setState(state, { payload }) {
+      return {...state, ...payload};
     },
   }
 };

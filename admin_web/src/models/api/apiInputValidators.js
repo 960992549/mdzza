@@ -1,9 +1,9 @@
 import { parse } from 'qs';
-import request from '../utils/request';
-import * as projectUtil from '../utils/projectUtil';
+import request from '../../utils/request';
+import * as projectUtil from '../../utils/projectUtil';
 
 const getApiInputValidatorsUrl = 'api/apiInputValidator/list';
-const saveApiInputValidatorsUrl = 'api/apiInputValidator/save';
+const configApiInputValidatorsUrl = 'api/apiInputValidator/config';
 
 export default {
   namespace: 'apiInputValidators',
@@ -36,13 +36,13 @@ export default {
     *save({ payload }, { select, call, put }) {
       const state = yield select(({ apiInputValidators }) => apiInputValidators);
       const params = { inputId: state.inputId, validators: JSON.stringify(state.list)};
-      let data = yield request(saveApiInputValidatorsUrl, parse(params));
+      let data = yield request(configApiInputValidatorsUrl, parse(params));
       projectUtil.handleResult(data);
     },
   },
   reducers: {
-    setState(state, action) {   //修改state值
-      return { ...state, ...action.payload};
+    setState(state, { payload }) {
+      return {...state, ...payload};
     },
   }
 };
