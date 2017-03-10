@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.mdzza.sys.dao.SysRoleDao">
+	<select id="list" resultType="cn.mdzza.sys.entity.SysRole">
+		select * from sys_role
+	</select>
+
+	<select id="get" resultType="cn.mdzza.sys.entity.SysRole">
+		select * from sys_role
+		where id = #{id}
+	</select>
+
+	<insert id="add">
+		insert into sys_role (
+		name_en,
+		name_cn,
+		description
+		) values (
+		#{nameEn},
+		#{nameCn},
+		#{description}
+		)
+	</insert>
+
+	<update id="update">
+		update sys_role
+		set name_en = #{nameEn},
+		name_cn = #{nameCn},
+		description = #{description}
+		where id = #{id}
+	</update>
+
+	<update id="delete">
+		delete from sys_role
+		where id = #{id}
+	</update>
+</mapper>
