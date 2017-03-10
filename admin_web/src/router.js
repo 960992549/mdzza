@@ -9,6 +9,9 @@ import ApiInputs from './routes/api/ApiInputs';
 import ApiOutputs from './routes/api/ApiOutputs';
 import ApiInputValidators from './routes/api/ApiInputValidators';
 import ApiOutputFormats from './routes/api/ApiOutputFormats';
+import SysRoles from './routes/sys/SysRoles';
+import SysRole from './routes/sys/SysRole';
+import SysRolePermission from './routes/sys/SysRolePermission';
 
 function RouterConfig({ history }) {
   return (
@@ -24,6 +27,14 @@ function RouterConfig({ history }) {
           <Route path="apiOutputs/:apiId" component={ApiOutputs}/>
           <Route path="apiInput/apiInputValidators/:inputId" component={ApiInputValidators}/>
           <Route path="apiOutput/apiOutputFormats/:outputId" component={ApiOutputFormats}/>
+        </Route>
+        <Route path="sys">
+          <Route path="role">
+            <Route path="list" component={SysRoles}/>
+            <Route path=":id" component={SysRole}/>
+            <Route path="add" component={SysRole}/>
+            <Route path=":id/permission" component={SysRolePermission}/>
+          </Route>
         </Route>
       </Route>
     </Router>
