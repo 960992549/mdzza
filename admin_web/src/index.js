@@ -15,8 +15,8 @@ app.model(require('./models/api/apiInputs'));
 app.model(require('./models/api/apiOutputs'));
 app.model(require('./models/api/apiInputValidators'));
 app.model(require('./models/api/apiOutputFormats'));
-app.model(require('./models/sys/sysRole'));
 app.model(require('./models/sys/sysRoles'));
+app.model(require('./models/sys/sysRole'));
 app.model(require('./models/sys/sysRolePermission'));
 
 // 4. Router
