@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.annotation.ImportResource;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -17,6 +18,7 @@ import javax.servlet.ServletException;
  * 2015-12-01
  */
 @SpringBootApplication
+@ImportResource(value = {"classpath:providers.xml"}) // 使用 providers.xml 配置；
 public class Main extends org.springframework.boot.web.support.SpringBootServletInitializer {
 	/**log对象 */
 	static Logger _log = LoggerFactory.getLogger(Main.class);
